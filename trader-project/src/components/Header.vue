@@ -22,7 +22,7 @@
         </template>
         <v-list>
           <v-list-item v-for="(item, index) in items" :key="index">
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title @click="saveData" style="cursor: pointer;">{{ item.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -37,7 +37,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-
+import apiStock from "@/axios"
 export default {
   name: "HeaderComponent",
   data() {
@@ -54,6 +54,10 @@ export default {
     ...mapActions(['randomizeStocks']),
     endDay() {
       this.randomizeStocks()
+    },
+    saveData() {
+      const {funds, stockPortfolio, stocks} = this.$store.getters
+      apiStock.post('dados', { funds, stockPortfolio, stocks });
     }
   }
 };
