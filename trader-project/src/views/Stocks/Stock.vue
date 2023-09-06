@@ -25,7 +25,7 @@
     
     <script>
 export default {
-  name: "Home",
+  name: "BuyStock",
   props: ["stock"],
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
         stockPrice: this.stock.price,
         quantity: this.quantity,
       };
-      console.log(order);
+      this.$store.dispatch('buyStock', order)
       this.quantity = 0;
     },
   },
