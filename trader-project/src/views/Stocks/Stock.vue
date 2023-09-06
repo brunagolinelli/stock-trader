@@ -12,11 +12,12 @@
         <v-text-field
           label="Quantidade"
           type="number"
+          :error="insufficientFunds || !Number.isInteger(quantity)"
           min="0"
           v-model.number="quantity"
         />
-        <v-btn class="nome" :disabled="quantity <= 0" @click="buyStock"
-          >Comprar</v-btn
+        <v-btn class="nome" :disabled="insufficientFunds || quantity <= 0" @click="buyStock"
+          >{{ insufficientFunds ? 'Insuficiente': 'Comprar'}}</v-btn
         >
       </v-container>
     </v-card>
@@ -25,7 +26,7 @@
     
     <script>
 export default {
-  name: "Home",
+  name: "BuyStock",
   props: ["stock"],
   data() {
     return {
@@ -39,10 +40,18 @@ export default {
         stockPrice: this.stock.price,
         quantity: this.quantity,
       };
-      console.log(order);
+      this.$store.dispatch('buyStock', order)
       this.quantity = 0;
     },
   },
+  computed: {
+    funds() {
+      return this.$store.getters.funds
+    },
+    insufficientFunds() {
+      return this.quantity * this.stock.price > this.funds
+    }
+  }
 };
 </script>
     

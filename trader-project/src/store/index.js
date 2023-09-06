@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import stocks from './stocks'
+import portifolio from './portifolio'
 
 export default createStore({
   state: {
@@ -10,5 +12,7 @@ export default createStore({
   actions: {
   },
   modules: {
+    stocks,
+    portifolio
   }
 })
