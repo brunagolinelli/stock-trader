@@ -15,7 +15,7 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items>
-      <v-btn flat>Finalizar dia</v-btn>
+      <v-btn flat @click="endDay">Finalizar Dia</v-btn>
       <v-menu open-on-hover>
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props"> Salvar & Carregar </v-btn>
@@ -26,11 +26,18 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <v-layout style="align-items: center;" >
+        <span class="text-uppercase grey--text text--darken-2">
+          Saldo: R$ {{ funds }}
+        </span>
+      </v-layout>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "HeaderComponent",
   data() {
@@ -38,5 +45,20 @@ export default {
       items: [{ title: "Salvar Dados" }, { title: "Carregar Dados" }],
     };
   },
+  computed:{
+    funds() {
+      return this.$store.getters.funds
+    }
+  },
+  methods: {
+    ...mapActions(['randomizeStocks']),
+    endDay() {
+      this.randomizeStocks()
+    }
+  }
 };
 </script>
+
+<style scoped>
+
+</style>
